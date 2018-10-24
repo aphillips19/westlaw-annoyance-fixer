@@ -1,0 +1,27 @@
+{
+  "name": "Westlaw Annoyance Fixer",
+  "version": "0.1",
+  "manifest_version" : 2,
+  "description": "Allows navigating back to the original Westlaw page after unintended signout",
+  "background" : {
+    "scripts" : ["background.js"],
+    "persistent": true
+  },
+  "content_scripts" : [
+      {
+        "matches" : [
+            "*://signon.thomsonreuters.com/*",
+            "*://*.next.westlaw.com/*"
+        ],
+        "js" : ["content.js"]
+    }],
+  "browser_action": {
+  },
+  "permissions": [
+      "activeTab",
+      "tabs",
+      "webRequest",
+      "*://signon.thomsonreuters.com/*",
+      "*://*.next.westlaw.com//*"
+    ]
+}
