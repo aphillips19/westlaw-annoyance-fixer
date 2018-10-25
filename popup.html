@@ -1,0 +1,61 @@
+
+<!doctype html>
+<html>
+  <head>
+    <title>Set Page Color Popup</title>
+    <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+    <style>
+    body {
+      overflow: hidden;
+      margin: 0px;
+      padding: 0px;
+      background: white;
+    }
+
+    div:first-child {
+      margin-top: 0px;
+    }
+
+    /* return numbers to BootStrap lists */
+    /* .list-group {
+    list-style: decimal inside;
+    }
+    .list-group-item {
+        display: list-item;
+    } */
+
+    #mainPopup {
+      cursor: pointer;
+      text-align: center;
+      padding: 10px;
+      font-family: sans-serif;
+      font-size: 0.8em;
+      width: 200px;
+      height: 60px;
+      margin-top: 1px;
+    }
+
+    </style>
+    <script src="popup.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid" id="mainPopup">
+      <ul class="list-group">
+          <li class="list-group=item">
+            <button id="signIn" type="button" class="btn btn-primary btn-sm" alt="Sign in to Westlaw">
+              Sign in to Westlaw
+            </button>
+          </li>
+          <li></li>
+          <li class="list-group=item">
+              <button id="refreshPage" type="button" class="btn btn-warning btn-sm" alt="Sign in to Westlaw">
+                  Return to original page
+                </button>
+          </li>
+        </ul>
+    </div>
+    <!-- <div id="refreshPage">Refresh to real page!</div> -->
+    <!-- <div id="refreshAll">Refresh all pages</div> -->
+  </body>
+</html>

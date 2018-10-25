@@ -7,15 +7,8 @@
     "scripts" : ["background.js"],
     "persistent": true
   },
-  "content_scripts" : [
-      {
-        "matches" : [
-            "*://signon.thomsonreuters.com/*",
-            "*://*.next.westlaw.com/*"
-        ],
-        "js" : ["content.js"]
-    }],
-  "browser_action": {
+  "browser_action" : {
+      "default_popup": "popup.html"
   },
   "permissions": [
       "activeTab",
