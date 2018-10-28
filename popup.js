@@ -1,7 +1,3 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 'use strict';
 
 function click(e) {
@@ -19,9 +15,40 @@ function click(e) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function goToPage(input) {
+  chrome.runtime.sendMessage(
+    {
+      type: "goToPage",
+      data: input
+    },
+    function(){
+      window.close();
+    }
+  )
+}
+
+document.addEventListener('DOMContentLoaded', documentEvents  , false);
+
+function myAction(input) { 
+    console.log("input value is : " + input.value);
+    alert("The entered data is : " + input.value);
+    // do processing with data
+    // you need to right click the extension icon and choose "inspect popup"
+    // to view the messages appearing on the console.
+}
+
+function documentEvents() {    
+
   var divs = document.querySelectorAll('div');
   for (var i = 0; i < divs.length; i++) {
     divs[i].addEventListener('click', click);
   }
-});
+
+  // Listen for refresh button
+  // document.getElementById('refreshPage').addEventListener('click', returnToPage);
+  
+  // Listen for text input
+  // document.getElementById('ok_btn').addEventListener('click', 
+  //   function() { myAction(document.getElementById('urlTextBox'));
+  // });
+}

@@ -1,20 +1,17 @@
- // Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-// test: https://1.next.westlaw.com/Document/I3a84f1d79c9d11d991d0cc6b54f12d4d/View/FullText.html
-
 'use strict';
 
 var shiftPressed = false;
 var temp = 2;
 var refreshedTabs = {};
+var autoRefresh = false;
 
 const WRONG_URL_ERROR = "This extension only works on Westlaw sign-off redirect URL's!"
 const BOWDOIN_LOGIN = "http://library.bowdoin.edu/erl/ip/westlaw.cgi"
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+  var response = "";
   switch(request.type){
-      // case 'shiftPressed':
+      // case 'shiftPressed':utoRef
       //   shiftPressed = true;
       //     break;
       // case 'keyup':
@@ -26,34 +23,34 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
       case 'refreshPage':
         attemptReturningToPage(request.data)
         break;
+      case 'toggleAutoRefresh':
+        // toggle autoRefresh and respond with the current status
+        response = toggleAutoRefresh()
   }
-  sendResponse();
+  sendResponse(response);
 }); 
 
+function toggleAutoRefresh() {
+  // toggle autoRefresh
+  autoRefresh = autoRefresh ? false : true;
+  // return the current status
+  return autoRefresh;
+}
 
-/*
-// also run if page refreshed
-chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
-  if (isWestlawSignOn(tab)
-        && changeInfo.url === undefined
-        && changeInfo.status == "complete") {
-      console.log("---");
-      console.log(tabId)
-      console.log(tab);
-      console.log(changeInfo);
-      console.log(refreshedTabs)
-      console.log("---");
-      // add to refreshedTabs dictionary if it's not already there.
-      // if it is, don't refresh again
-      if(refreshedTabs[tabId] === undefined) {
-        attemptReturningToPage(tab)
-        refreshedTabs[tabId] = 1
-      } else {
-        delete refreshedTabs[tabId]
-      }
-  }
+function refreshCurrentPage(activeInfo) {
+  var tab = chrome.tabs.get(activeInfo.tabId, function(tab) {
+    console.log("Active tab changed: " + tab)
+    if(isWestlawSignOn(tab)) {
+      attemptReturningToPage(tab)
+    }
+  })
+}
+
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+  refreshCurrentPage(activeInfo);
 });
-*/
+
+
 function attemptSignOn() {
   chrome.tabs.create({'url': BOWDOIN_LOGIN}, function(tab) {
     // Tab opened.
